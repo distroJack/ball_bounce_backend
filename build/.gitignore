@@ -1,0 +1,3 @@
+.terraform
+zips/*
+.terraform.lock.hcl
