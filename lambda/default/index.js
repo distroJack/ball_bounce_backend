@@ -119,7 +119,6 @@ exports.handler = async (event) => {
 
         var startMessage = {
             type: "start-reply",
-            gameGo: bothConnected,
             playerID: getPlayerID(connectionID, record)
         };
 
@@ -151,10 +150,18 @@ exports.handler = async (event) => {
         return Responses._200({ message: 'Spectators can\'t play ball bounce' });
     }
 
+
+
     // Update the board state 
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
     const reply = {
         ball_pos: Board.ballPosition,
         time_count: Board.timeCount
