@@ -1,16 +1,10 @@
 const Ball = function (dbBall) {
 
-    // this.direction = Math.PI;
-    // this.speed = 4;
-    // this.x = x;
-    // this.y = y;
-    // this.radius = radius;
-    // this.last = 1;
-
     this.startSpeed = 4;
     this.direction = dbBall.direction;
     this.speed = dbBall.speed;
-    this.position = dbBall.position;
+    this.x = dbBall.position.x;
+    this.y = dbBall.position.y;
     this.radius = 25;
     this.last = true;
 
@@ -18,7 +12,10 @@ const Ball = function (dbBall) {
 
 Ball.prototype = {
 
-    updatePosition: function (width, height, left, right, board) {
+    updatePosition: function (left, right, board) {
+
+        width = 1920;
+        height = 1080;
 
         this.x += this.speed * Math.cos(this.direction);
         this.y += this.speed * Math.sin(this.direction);
@@ -77,3 +74,5 @@ Ball.prototype = {
         this.position = [width / 2.0, height / 2.0];
     },
 }
+
+module.exports = Ball;

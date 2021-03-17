@@ -4,12 +4,6 @@ const WebSocket = require("WebsocketMessage");
 
 const tableName = "ball-bounce-backend";
 
-function isEmpty(obj) {
-    return obj
-        && Object.keys(obj).length === 0
-        && obj.constructor === Object;
-}
-
 exports.handler = async (event) => {
     const { connectionId: connectionID, domainName, stage } = event.requestContext;
     
@@ -22,31 +16,38 @@ exports.handler = async (event) => {
             stage
         };
 
-        var message = {
-            type: "Player",
-        }
-
-        if (isEmpty(record.Player1)) {
+        if (!('Player1' in record)) {
             console.log("Player 1 init");
             record.Player1 = {
                 score: 0,
+                paddle: {
+                    x: 0,
+                    y: 1080
+                },
                 connectionID,
                 domainName,
-                stage                
+                stage     
             };
 
-            message.value = 1
+            record.Ball = {
+                position: {x: 960, y: 540},
+                direction: Math.PI,
+                speed: 4
+            }
+            record.turn = 2;
 
-        } else if (isEmpty(record.Player2)) {
+        } else if (!('Player2' in record)) {
             console.log("Player 2 init");
             record.Player2 = {
                 score: 0,
+                paddle: {
+                    x: 1920,
+                    y: 1080
+                },
                 connectionID,
                 domainName,
                 stage
             };
-
-            message.value = 2
 
         } else {
             console.log("Spectator init");
@@ -54,22 +55,7 @@ exports.handler = async (event) => {
                 connectionID,
                 domainName,
                 stage
-            });     
-
-            message.value = 3
-
-        }
-
-        var startGame = !isEmpty(record.Player1) && !isEmpty(record.Player2);
-        
-        // Initialize the board state if last player joined
-        if (startGame && message.value !== 3) {
-
-            console.log("Starting game");
-            record.Board = {
-                ballPosition: [540, 960],       // Halfway along the width and height
-                timeCount: 0,
-            };
+            });
         }
 
         console.log("write player records to Db");

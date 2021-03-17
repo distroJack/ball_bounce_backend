@@ -4,12 +4,6 @@ const WebSocket = require("WebsocketMessage");
 
 const tableName = "ball-bounce-backend";
 
-function isEmpty(obj) {
-    return obj
-        && Object.keys(obj).length === 0
-        && obj.constructor === Object;
-}
-
 exports.handler = async (event) => {
     
     const { connectionId: connectionID } = event.requestContext;
@@ -24,7 +18,7 @@ exports.handler = async (event) => {
     const msgStr = JSON.stringify(msg);
 
     if (Player1.connectionID === connectionID) {
-        record.Player1 = {};
+        delete record.Player1;
     } else {
         try {
             await WebSocket.send({
@@ -34,12 +28,12 @@ exports.handler = async (event) => {
                 message: msgStr
             });
         } catch (e) {
-            record.Player1 = {};
+            delete record.Player1;
         }
     }
     
     if (Player2.connectionID === connectionID) {
-        record.Player2 = {};
+        delete record.Player2;
     } else {
         try {
             await WebSocket.send({
@@ -49,7 +43,7 @@ exports.handler = async (event) => {
                 message: msgStr
             });
         } catch (e) {
-            record.Player2 = {};
+            delete record.Player2;
         }
     }
 
